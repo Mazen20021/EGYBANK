@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at center, #ff7e5f, #feb47b);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            max-width: 500px;
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+        .container:hover {
+            transform: scale(1.05);
+        }
+        #welcome-label {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+        }
+        .circle-decoration {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            width: 300px;
+            height: 300px;
+            top: -50px;
+            left: -50px;
+            z-index: 0;
+            animation: moveCircle 15s infinite;
+        }
+        .circle-decoration:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: auto;
+            bottom: -50px;
+            left: auto;
+            right: -50px;
+            animation: moveCircle 20s infinite reverse;
+        }
+        @keyframes moveCircle {
+            0% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(50px, 50px);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+        .container-content {
+            position: relative;
+            z-index: 1;
+        }
+        button {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        button:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+            transform: translateY(-3px);
+        }
+        .forgot-password {
+            margin-top: 15px;
+            color: #333;
+            font-size: 16px;
+        }
+        .forgot-password a {
+            color: #6a11cb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .forgot-password a:hover {
+            color: #2575fc;
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function updateWelcomeMessage(name) {
+            document.getElementById('welcome-label').innerText = `Welcome To My Page, ${name}!`;
+        }
+
+        // Optional: Example of how you might call this function
+        document.addEventListener('DOMContentLoaded', function() {
+            const userName = "Artistic User"; // Example static name
+            updateWelcomeMessage(userName);
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="circle-decoration"></div>
+    <div class="circle-decoration"></div>
+    <div class="container-content">
+        <label id="welcome-label">Welcome To My Page</label>
+        <form method="get" action="/Page">
+            <button type="submit">Log Out</button>
+        </form>
+        <div class="forgot-password">
+            <a href="#">Forgot your password?</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
