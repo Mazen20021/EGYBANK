@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BankRepoINT extends JpaRepository<BankEntity, Long> {
     BankEntity findBankEntityBySwift(String swift);
+    BankEntity findBankEntitiesByName(String Name);
 }

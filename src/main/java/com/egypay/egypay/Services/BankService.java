@@ -9,10 +9,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BankService implements BankServiceINT{
 
-    BankRepoINT bankRepoINT;
+    private final BankRepoINT bankRepoINT;
 
     public BankEntity findBankEntityBySwift(String swift)
     {
         return bankRepoINT.findBankEntityBySwift(swift);
+    }
+
+    public BankEntity findBankEntitiesByName(String Name) {
+        return bankRepoINT.findBankEntitiesByName(Name);
     }
 }

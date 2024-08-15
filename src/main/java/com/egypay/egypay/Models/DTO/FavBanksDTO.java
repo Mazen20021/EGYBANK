@@ -1,18 +1,21 @@
 package com.egypay.egypay.Models.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class FavBanksDTO {
     private Long id;
     private String name;
-    List<BankDTO> bankDTOList;
+    private String SwiftCode;
+    private String IBAN;
+    private Double balance;
+    private String token;
+//    List<BankDTO> bankDTOList;
 }

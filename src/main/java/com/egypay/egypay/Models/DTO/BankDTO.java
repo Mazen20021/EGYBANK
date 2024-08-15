@@ -14,8 +14,8 @@ public class BankDTO {
     private Long id;
     private final String name = "EGY";
     private String address;
-    private final String swift = "SPTEGYTBXXX";
-    private final String iban = "SPTEGYT920014003500001019410308601";
+    private String swift;
+    private String iban ;
     private Double balance;
     private String Token;
 }

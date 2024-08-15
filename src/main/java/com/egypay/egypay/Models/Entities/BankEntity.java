@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "banks")
+
 public class BankEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,4 +30,5 @@ public class BankEntity {
     private Double balance;
     @Column(name = "token")
     private String token;
+
 }

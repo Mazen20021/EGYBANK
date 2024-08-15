@@ -121,13 +121,26 @@
     <header class="Grid-Container-1200 hero-section">
       <div class="hero-text scrollanimation">
         <div class="button-container">
-		<button class="Get-button GetBalance">Show Balance</button><br>
-          <form th:action="@{/SendMoney}" th:object="${user}">
-            <button class="advanced-button send-money">Send Money</button>
-            </form>
+          <form>
 
-		<button class="advanced-button request-money">Request Money</button>
-          <button class="advanced-button request-money">Banks</button>
+            <button class="Get-button GetBalance">Get Balance</button><br>
+
+          </form>
+          <form th:action="@{/BankMoney}">
+
+            <button class="advanced-button send-money">Send Money</button>
+
+          </form>
+          <form>
+
+            <button class="advanced-button request-money">Request Money</button>
+
+          </form>
+          <form>
+
+            <button class="advanced-button request-money">Fav User</button>
+
+          </form>
 
 		</div>
         <div class="download">

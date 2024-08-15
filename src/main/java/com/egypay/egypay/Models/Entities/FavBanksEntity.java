@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "favbanks")
+
 public class FavBanksEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +20,15 @@ public class FavBanksEntity {
     private Long id;
     @Column(name = "name")
     private String name;
-
-    @ManyToOne
-    @JoinColumn(name = "favbanks_id")
-    private BankEntity bankEntity;
+    @Column(name = "swiftcode")
+    private String SwiftCode;
+    @Column(name = "iban")
+    private String IBAN;
+    @Column(name = "balance")
+    private Double balance;
+    @Column(name = "token")
+    private String token;
+//    @ManyToOne
+//    @JoinColumn(name = "favbanks_id")
+//    private BankEntity bankEntity;
 }

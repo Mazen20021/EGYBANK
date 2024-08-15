@@ -4,4 +4,5 @@ import com.egypay.egypay.Models.Entities.BankEntity;
 
 public interface BankServiceINT {
     BankEntity findBankEntityBySwift(String swift);
+    BankEntity findBankEntitiesByName(String Name);
 }

@@ -74,16 +74,18 @@
 <body>
 <div class="container">
     <h1>Send Money</h1>
-    <div class="balance-container" th:object="${user}" th:field="*{balance}">
-        Current Balance:
+    <div class="balance-container" th:object="${Bank}">
+        Current Balance : $<span th:text="${balance}"></span>
     </div>
-    <form action="#">
+    <form >
         <label for="swift">SWIFT Code</label>
-        <input type="text" id="swift" name="swift" placeholder="Enter SWIFT Code" required>
-
+        <input type="text" id="swift" name="swift" placeholder="Enter SWIFT Code" th:field="*{SwiftCode}" required>
+</form>
+    <form >
         <label for="amount">Amount</label>
-        <input type="number" id="amount" name="amount" placeholder="Enter Amount"   required>
-
+        <input type="number" id="amount" name="amount" placeholder="Enter Amount" th:field="*{amount}" required>
+    </form>
+    <form th:action="@{/SendMoney}" th:object="${Bank}">
         <button type="submit" class="send-btn">Send</button>
     </form>
 </div>

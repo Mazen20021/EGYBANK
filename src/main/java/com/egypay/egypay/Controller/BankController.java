@@ -1,12 +1,14 @@
 package com.egypay.egypay.Controller;
 
+import com.egypay.egypay.Models.DTO.BankDTO;
+import com.egypay.egypay.Models.DTO.FavBanksDTO;
 import com.egypay.egypay.Models.DTO.UserDTO;
 import com.egypay.egypay.Services.BankServiceINT;
+import com.egypay.egypay.Services.FavBankService;
 import com.egypay.egypay.Services.UserServiceINT;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -16,7 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class BankController {
 
    private final UserServiceINT userService;
-    private final BankServiceINT bankService;
+   private final BankServiceINT bankService;
+   private final FavBankService favBankService;
 
     @RequestMapping("/")
     public String logIn(Model model) {
@@ -56,7 +59,7 @@ public class BankController {
     }
 
     @RequestMapping("/Register")
-    public String Main(@ModelAttribute("user") UserDTO user ,Model model)
+    public String Main(@ModelAttribute("user") UserDTO user)
     {
         System.out.println("Reg form 2");
         System.out.println(user.getFullName());
@@ -82,28 +85,28 @@ public class BankController {
     public String AdminHome(Model model , @ModelAttribute("user") UserDTO userDto , RedirectAttributes redirectAttributes)
     {
         model.addAttribute("fullname", userService.findUserEntityByEmail(userDto.getEmail()).getFullName());
-        redirectAttributes.addFlashAttribute("user", userDto);
+        redirectAttributes.addFlashAttribute("user",userDto);
         return "Adminindex";
     }
-    @RequestMapping("/SendMoney")
-    public String SendMoney(@ModelAttribute("user") UserDTO userDto , Model model)
+    @RequestMapping("/BankMoney")
+    public String BankMoney(@ModelAttribute("Bank") BankDTO bankDTO, Model model , RedirectAttributes redirectAttributes)
     {
-        if(userDto.getEmail().contains("_bk_"))
-        {
-            double balance = bankService.findBankEntityBySwift("EBILEGCXXXX").getBalance();
-            model.addAttribute("balance", balance);
-            System.out.println(balance);
-        }else
-        {
-
-        }
-        return "SendMoney";
+        double balance = bankService.findBankEntitiesByName(bankDTO.getName()).getBalance();
+        model.addAttribute("balance", balance);
+        redirectAttributes.addFlashAttribute("bank", bankDTO);
+        return "redirect:/SendMoney";
     }
-
-    @GetMapping("/Send")
-    public String send()
+    @RequestMapping("/SendMoney")
+    public String SendMoney(@ModelAttribute("Bank") FavBanksDTO FavbankDTO, Model model)
     {
-        return "EgyPay.rar";
+        String Swift = model.addAttribute("SwiftCode").toString();
+        System.out.println(Swift);
+        String Amount = model.addAttribute("amount").toString();
+        System.out.println(Amount);
+        String OtherBalance = favBankService.findFavBanksEntityBySwiftCode(Swift).getBalance().toString();
+        System.out.println(OtherBalance);
+        //model.addAttribute("balance", balance);
+        return "SendMoney";
     }
 }
 
