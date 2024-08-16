@@ -1,7 +1,7 @@
 package com.egypay.egypay.Controller;
 
 import com.egypay.egypay.Models.DTO.BankDTO;
-import com.egypay.egypay.Models.DTO.FavBanksDTO;
+import com.egypay.egypay.Models.DTO.FavBankDTO;
 import com.egypay.egypay.Models.DTO.UserDTO;
 import com.egypay.egypay.Services.BankServiceINT;
 import com.egypay.egypay.Services.FavBankService;
@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -52,8 +53,6 @@ public class BankController {
     @RequestMapping("/RegisterForm")
     public String Reg(@ModelAttribute("user") UserDTO user , RedirectAttributes redirectAttributes)
     {
-        System.out.println(user.getFullName());
-        System.out.println("Reg form 1");
         redirectAttributes.addFlashAttribute("user", user);
         return "redirect:/Register";
     }
@@ -61,12 +60,8 @@ public class BankController {
     @RequestMapping("/Register")
     public String Main(@ModelAttribute("user") UserDTO user)
     {
-        System.out.println("Reg form 2");
-        System.out.println(user.getFullName());
         if(userService.saveUser(user))
         {
-            System.out.println(user.getFullName());
-            System.out.println("Reg form 3");
             return "redirect:/";
 
         }else
@@ -94,18 +89,15 @@ public class BankController {
         double balance = bankService.findBankEntitiesByName(bankDTO.getName()).getBalance();
         model.addAttribute("balance", balance);
         redirectAttributes.addFlashAttribute("bank", bankDTO);
-        return "redirect:/SendMoney";
+        return "SendMoney";
     }
-    @RequestMapping("/SendMoney")
-    public String SendMoney(@ModelAttribute("Bank") FavBanksDTO FavbankDTO, Model model)
+    @PostMapping("/SendMoney")
+    public String SendMoney(@ModelAttribute("Bank") FavBankDTO favBankDTO , Model model , RedirectAttributes redirectAttributes)
     {
-        String Swift = model.addAttribute("SwiftCode").toString();
-        System.out.println(Swift);
-        String Amount = model.addAttribute("amount").toString();
-        System.out.println(Amount);
-        String OtherBalance = favBankService.findFavBanksEntityBySwiftCode(Swift).getBalance().toString();
-        System.out.println(OtherBalance);
-        //model.addAttribute("balance", balance);
+        BankDTO bankDTO = new BankDTO();
+        System.out.println(favBankDTO.getAmount());
+        System.out.println(favBankDTO.getSwiftcode());
+        model.addAttribute("balance" , bankService.findBankEntitiesByName(bankDTO.getName()).getBalance());
         return "SendMoney";
     }
 }

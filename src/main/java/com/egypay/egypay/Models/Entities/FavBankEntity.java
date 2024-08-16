@@ -6,29 +6,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "favbanks")
-
-public class FavBanksEntity {
+public class FavBankEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private int id;
     @Column(name = "name")
     private String name;
     @Column(name = "swiftcode")
-    private String SwiftCode;
+    private String swiftcode;
     @Column(name = "iban")
-    private String IBAN;
+    private String iban;
     @Column(name = "balance")
     private Double balance;
-    @Column(name = "token")
-    private String token;
-//    @ManyToOne
-//    @JoinColumn(name = "favbanks_id")
-//    private BankEntity bankEntity;
 }
+
