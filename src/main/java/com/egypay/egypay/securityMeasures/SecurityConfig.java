@@ -51,6 +51,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().authenticated()
+                                       
                 )
                 .httpBasic(Customizer.withDefaults());
 
