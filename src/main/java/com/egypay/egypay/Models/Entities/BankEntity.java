@@ -28,7 +28,7 @@ public class BankEntity {
     private String iban;
     @Column(name = "balance")
     private Double balance;
-    @Column(name = "token")
-    private String token;
+    @Column(name = "request_Id")
+    private String requestId;
 
 }

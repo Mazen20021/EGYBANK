@@ -17,5 +17,5 @@ public class BankDTO {
     private String swift;
     private String iban ;
     private Double balance;
-    private String Token;
+    private String requestId;
 }

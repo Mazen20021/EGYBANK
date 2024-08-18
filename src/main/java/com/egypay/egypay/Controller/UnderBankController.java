@@ -1,17 +1,18 @@
 package com.egypay.egypay.Controller;
 
 import com.egypay.egypay.Models.DTO.BankDTOBalance;
+import com.egypay.egypay.Models.DTO.responseDto;
 import com.egypay.egypay.Models.GeneralResponse;
 import com.egypay.egypay.Services.UnderBankServiceINT;
 import com.egypay.egypay.util.PreperResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
-import java.io.BufferedReader;
-import java.io.IOException;
 
 
 @RestController
@@ -20,29 +21,15 @@ public class UnderBankController {
 
     private final UnderBankServiceINT UnderbankServiceINT;
 
+
+
     @PostMapping("/balance")
-    public ResponseEntity<GeneralResponse<BankDTOBalance>> Balance(HttpServletRequest request)
+    public ResponseEntity<GeneralResponse<BankDTOBalance>> Balance(@RequestHeader("X-Requested-With") String requestId)
     {
 
-        StringBuilder requestBody = new StringBuilder();
-
-        try (BufferedReader reader = request.getReader())
+        if (UnderbankServiceINT.getBalance(requestId) != null)
         {
-
-            String line;
-            while ((line = reader.readLine()) != null)
-            {
-
-                requestBody.append(line);
-
-            }
-        } catch (IOException e) {throw new RuntimeException("Failed to read request body", e);}
-
-        String body = requestBody.toString();
-
-        if (UnderbankServiceINT.getBalance(body) != null)
-        {
-            GeneralResponse<BankDTOBalance> response = PreperResponse.preperResponse(UnderbankServiceINT.getBalance(body), "OK", "200");
+            GeneralResponse<BankDTOBalance> response = PreperResponse.preperResponse(UnderbankServiceINT.getBalance(requestId), "OK", "200");
             return ResponseEntity.ok(response);
         }
         else
@@ -53,9 +40,9 @@ public class UnderBankController {
     }
 
     @PostMapping("/withdraw")
-    public ResponseEntity<GeneralResponse<BankDTOBalance>> Deposit(@RequestBody String body)
+    public ResponseEntity<GeneralResponse<BankDTOBalance>> Deposit(@RequestHeader("X-Requested-With") String requestId , @RequestBody responseDto responseDto)
     {
-        String message = UnderbankServiceINT.Withdraw(body);
+        String message = UnderbankServiceINT.Withdraw(requestId , responseDto);
 
         return switch (message)
         {
@@ -94,9 +81,9 @@ public class UnderBankController {
     }
 
     @PostMapping("/deposit")
-    public ResponseEntity<GeneralResponse<BankDTOBalance>>  Withdraw(@RequestBody String body)
+    public ResponseEntity<GeneralResponse<BankDTOBalance>>  Withdraw(@RequestHeader("X-Requested-With") String requestId , @RequestBody responseDto responseDto)
     {
-        String message = UnderbankServiceINT.Deposit(body);
+        String message = UnderbankServiceINT.Deposit(requestId , responseDto);
 
         return switch (message)
         {
@@ -112,7 +99,7 @@ public class UnderBankController {
             }
             case "-2" ->
             {
-                GeneralResponse<BankDTOBalance> response3 = PreperResponse.preperResponse(null, "Bad Request", "403");
+                GeneralResponse<BankDTOBalance> response3 = PreperResponse.preperResponse(null, "Minimum Required Deposit 100000.0", "403");
                 yield ResponseEntity.ok(response3);
             }
             case "-3" ->
